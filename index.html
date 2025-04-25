@@ -211,31 +211,28 @@
   </div>
 </div>
 
-<div id="full-screen-info" class="full-screen-info">
-  <!-- 뒤로가기 버튼 -->
-  <button class="close-btn" onclick="closeFullScreen()">
+<!-- MJ 콘텐츠 -->
+<div id="main-content" style="display: none;">
+  <button class="close-btn" onclick="goBackToDeviceSelection()">
     <i class="material-icons">arrow_back</i>
   </button>
-
-  <!-- 매뉴얼 / 점검부 카드들 -->
+  <h1>MJ81</h1>
   <div class="container">
-    <div class="card">
+    <div class="card" data-card="1">
       <i class="material-icons">menu_book</i>
       <p>매뉴얼</p>
-      <div class="pdf-buttons-container">
-        <button class="pdf-button" onclick="viewPDF('mj_manual_1.pdf')">1. 구성</button>
-        <button class="pdf-button" onclick="viewPDF('mj_manual_2.pdf')">2. 작동원리</button>
-        <button class="pdf-button" onclick="viewPDF('mj_manual_3.pdf')">3. 회로도</button>
-      </div>
     </div>
-    <div class="card">
-      <i class="material-icons">rule_folder</i>
+    <div class="card" data-card="3">
+      <i class="material-icons">list_alt</i>
       <p>점검부</p>
-      <div class="pdf-buttons-container">
-        <button class="pdf-button" onclick="viewPDF('mj_check_1.pdf')">1. 점검항목</button>
-        <button class="pdf-button" onclick="viewPDF('mj_check_2.pdf')">2. 점검기준</button>
-      </div>
     </div>
+  </div>
+
+  <div id="full-screen-info" class="full-screen-info">
+    <button class="close-btn" onclick="closeFullScreen()">
+      <i class="material-icons">arrow_back</i>
+    </button>
+    <div id="full-screen-text"></div>
   </div>
 </div>
 
@@ -247,7 +244,6 @@
     if (id === 'sign' && pw === '7788') {
       document.getElementById('login-screen').style.display = 'none';
       document.getElementById('device-selection').style.display = 'block';
-      history.pushState({ screen: 'device-selection' }, '', '');
     } else {
       document.getElementById('login-error').style.display = 'block';
     }
@@ -257,31 +253,80 @@
     if (number === 1) {
       document.getElementById('device-selection').style.display = 'none';
       document.getElementById('main-content').style.display = 'block';
-      history.pushState({ screen: 'mj' }, '', '');
     } else {
       alert(`${number}번 장비는 아직 연결되지 않았습니다.`);
     }
   }
 
-  function openMJ() {
-    const fullScreenInfo = document.getElementById('full-screen-info');
-    fullScreenInfo.style.display = 'flex';
-    document.getElementById('full-screen-text').innerText = 'MJ81 관련 정보';
+  const cardData = {
+    1: {
+      title: '매뉴얼',
+      content: '',
+      pdfUrls: [
+        { url: 'https://raw.githubusercontent.com/rudals0372/k/main/docs/검사기준.pdf', name: '검사기준' },
+        { url: 'https://raw.githubusercontent.com/rudals0372/k/main/docs/노스가동매뉴얼.pdf', name: '노스가동 매뉴얼' },
+        { url: 'https://raw.githubusercontent.com/rudals0372/k/main/docs/설치방법.pdf', name: '설치방법' },
+        { url: 'https://raw.githubusercontent.com/rudals0372/k/main/docs/유지보수매뉴얼.pdf', name: '유지보수 매뉴얼' },
+        { url: 'https://raw.githubusercontent.com/rudals0372/k/main/docs/유지보수방법.pdf', name: '유지보수 방법' }
+      ],
+      type: 'pdf'
+    },
+    3: {
+      title: '점검부',
+      content: '',
+      pdfUrls: [
+        { url: 'https://raw.githubusercontent.com/rudals0372/k/main/docs/1.pdf', name: '점검부1' },
+        { url: 'https://raw.githubusercontent.com/rudals0372/k/main/docs/2.pdf', name: '점검부2' },
+      ],
+      type: 'pdf'
+    }
+  };
+
+  document.querySelectorAll('.card[data-card]').forEach(card => {
+    card.addEventListener('click', function () {
+      const cardNumber = this.getAttribute('data-card');
+      const data = cardData[cardNumber];
+      const fullScreenInfo = document.getElementById('full-screen-info');
+      const fullScreenText = document.getElementById('full-screen-text');
+
+      if (data && data.type === 'pdf') {
+        let pdfButtons = '';
+        data.pdfUrls.forEach(item => {
+          pdfButtons += `
+            <button onclick="openPDF('${item.url}')" class="pdf-button">${item.name}</button>
+          `;
+        });
+
+        fullScreenText.innerHTML = `
+          <h2>${data.title}</h2>
+          <p>${data.content}</p>
+          <div class="pdf-buttons-container">
+            ${pdfButtons}
+          </div>
+        `;
+
+        fullScreenInfo.style.display = 'flex';
+        history.pushState(null, null, window.location.href);
+        window.onpopstate = function () {
+          closeFullScreen();
+        };
+      }
+    });
+  });
+
+  function openPDF(url) {
+    const viewerUrl = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(url)}`;
+    window.open(viewerUrl, '_blank');
   }
 
   function closeFullScreen() {
     document.getElementById('full-screen-info').style.display = 'none';
   }
 
-  window.addEventListener('popstate', function(event) {
-    if (event.state?.screen === 'device-selection') {
-      document.getElementById('device-selection').style.display = 'block';
-      document.getElementById('main-content').style.display = 'none';
-    } else if (event.state?.screen === 'mj') {
-      document.getElementById('device-selection').style.display = 'none';
-      document.getElementById('main-content').style.display = 'block';
-    }
-  });
+  function goBackToDeviceSelection() {
+    document.getElementById('main-content').style.display = 'none';
+    document.getElementById('device-selection').style.display = 'block';
+  }
 </script>
 
 </body>
