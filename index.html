@@ -211,21 +211,31 @@
   </div>
 </div>
 
-<!-- MJ 콘텐츠 -->
-<div id="main-content" style="display: none;">
-  <h1>MJ81</h1>
-  <div class="container">
-    <div class="card" onclick="openMJ()">
-      <i class="material-icons">precision_manufacturing</i>
-      <p>MJ</p>
-    </div>
-  </div>
+<div id="full-screen-info" class="full-screen-info">
+  <!-- 뒤로가기 버튼 -->
+  <button class="close-btn" onclick="closeFullScreen()">
+    <i class="material-icons">arrow_back</i>
+  </button>
 
-  <div id="full-screen-info" class="full-screen-info">
-    <button class="close-btn" onclick="closeFullScreen()">
-      <i class="material-icons">arrow_back</i>
-    </button>
-    <div id="full-screen-text"></div>
+  <!-- 매뉴얼 / 점검부 카드들 -->
+  <div class="container">
+    <div class="card">
+      <i class="material-icons">menu_book</i>
+      <p>매뉴얼</p>
+      <div class="pdf-buttons-container">
+        <button class="pdf-button" onclick="viewPDF('mj_manual_1.pdf')">1. 구성</button>
+        <button class="pdf-button" onclick="viewPDF('mj_manual_2.pdf')">2. 작동원리</button>
+        <button class="pdf-button" onclick="viewPDF('mj_manual_3.pdf')">3. 회로도</button>
+      </div>
+    </div>
+    <div class="card">
+      <i class="material-icons">rule_folder</i>
+      <p>점검부</p>
+      <div class="pdf-buttons-container">
+        <button class="pdf-button" onclick="viewPDF('mj_check_1.pdf')">1. 점검항목</button>
+        <button class="pdf-button" onclick="viewPDF('mj_check_2.pdf')">2. 점검기준</button>
+      </div>
+    </div>
   </div>
 </div>
 
