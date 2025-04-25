@@ -215,13 +215,9 @@
 <div id="main-content" style="display: none;">
   <h1>MJ81</h1>
   <div class="container">
-    <div class="card" onclick="openManual()">
-      <i class="material-icons">menu_book</i>
-      <p>매뉴얼</p>
-    </div>
-    <div class="card" data-card="3" onclick="openInspection()">
-      <i class="material-icons">list_alt</i>
-      <p>점검부</p>
+    <div class="card" onclick="openMJ()">
+      <i class="material-icons">precision_manufacturing</i>
+      <p>MJ</p>
     </div>
   </div>
 
@@ -257,14 +253,14 @@
     }
   }
 
-  function openManual() {
-    const pdfContainer = document.getElementById('full-screen-info');
-    pdfContainer.style.display = 'flex';
-    document.getElementById('full-screen-text').innerText = '매뉴얼 PDF를 여기서 열 수 있습니다.';
+  function openMJ() {
+    const fullScreenInfo = document.getElementById('full-screen-info');
+    fullScreenInfo.style.display = 'flex';
+    document.getElementById('full-screen-text').innerText = 'MJ81 관련 정보';
   }
 
-  function openInspection() {
-    alert('점검부 기능은 아직 구현되지 않았습니다.');
+  function closeFullScreen() {
+    document.getElementById('full-screen-info').style.display = 'none';
   }
 
   window.addEventListener('popstate', function(event) {
@@ -276,10 +272,6 @@
       document.getElementById('main-content').style.display = 'block';
     }
   });
-
-  function closeFullScreen() {
-    document.getElementById('full-screen-info').style.display = 'none';
-  }
 </script>
 
 </body>
