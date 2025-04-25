@@ -210,18 +210,11 @@
             <i class="material-icons">menu_book</i>
             <p>매뉴얼</p>
         </div>
-        <div class="card" data-card="2">
-            <i class="material-icons">architecture</i>
-            <p>철도설계지침</p>
-        </div>
         <div class="card" data-card="3">
             <i class="material-icons">list_alt</i>
             <p>점검부</p>
         </div>
-        <div class="card" data-card="4">
-            <i class="material-icons">smart_display</i>
-            <p>동영상</p>
-        </div>
+
     </div>
 
     <div id="full-screen-info" class="full-screen-info">
@@ -259,20 +252,15 @@
             type: 'pdf'
         },
         2: {
-            title: '철도설계지침',
+            title: '점검부',
             content: '',
             pdfUrls: [
-                { url: 'https://raw.githubusercontent.com/rudals0372/k/main/docs/1.pdf', name: '선로전환기 기능' },
-                { url: 'https://raw.githubusercontent.com/rudals0372/k/main/docs/2.pdf', name: '선로전환기 설치' },
+                { url: 'https://raw.githubusercontent.com/rudals0372/k/main/docs/1.pdf', name: '점검부1' },
+                { url: 'https://raw.githubusercontent.com/rudals0372/k/main/docs/2.pdf', name: '점검부2' },
             ],
             type: 'pdf'
-        },
-        4: {
-            title: '밀착검지기 동영상',
-            content: '',
-            videoUrl: 'https://github.com/rudals0372/k/raw/main/밀착동영상.mp4',
-            type: 'video'
         }
+        
     };
 
     document.querySelectorAll('.card').forEach(card => {
